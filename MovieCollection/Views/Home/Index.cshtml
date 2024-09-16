@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MovieCollection.Models.Movie>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1>Suggestions</h1>
+    <p class="lead">Here are some movies you might like</p>
+
+        
+    <div id="carouselExampleFade" class="carousel slide carousel-fade">
+        <div class="carousel-inner">
+            
+            
+            @foreach (var movie in Model)
+            {
+                @if (movie.Image == null)
+                {
+                    movie.Image = "noimage.jpg";
+                }
+                
+                <div class="carousel-item @(movie == Model.First() ? "active" : "")">
+                    <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.Id">
+                    <img src="~/images/@movie.Image" class="d-block w-100" style="max-height: 700px;" alt="@movie.Title">
+                    </a>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 style="color:brown;">@movie.Title</h1>
+
+                    </div>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+       
+        
+</div>

@@ -1,0 +1,103 @@
+﻿@model MovieCollection.Models.Movie
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+@if (Model.Image != null)
+{
+    <div>
+        <img src = "~/images/@Model.Image" alt = "@Model.Title"/>
+    </div>
+}
+<h4>Movie Details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input type="file" name="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" type="date" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ViewDate" class="control-label"></label>
+                <input asp-for="ViewDate" type="date" class="form-control" />
+                <span asp-validation-for="ViewDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategId" class="control-label"></label>
+                <select asp-for="CategId" class="form-control" asp-items="ViewBag.Categories">
+                    <option value="">-- Select New Category --</option>
+                </select>
+                <span asp-validation-for="CategId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlatformId" class="control-label"></label>
+                <select asp-for="PlatformId" class="form-control" asp-items="ViewBag.Platforms">
+                    <option value="">-- Select New Platform --</option>
+                </select>
+                <span asp-validation-for="PlatformId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <h3>
+        Select Actors
+    </h3>
+    <div>
+        <form asp-action="AddActors" asp-controller="Movies">
+            <input name="MovieId" type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label for="ActorId" class="control-label"></label>
+                <select name="ActorId" class="form-control" asp-items="ViewBag.Actors">
+                    <option value="">-- Select Actor --</option>
+                </select>
+                <span asp-validation-for="MoviesActors" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Actor</button>
+        </form>
+        <div>
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+        </div>
+        
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-route-id="@Model?.Id">Details</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
